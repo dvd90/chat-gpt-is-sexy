@@ -4,14 +4,9 @@ dotenv.config();
 import express, { Express } from 'express';
 import helmet from 'helmet';
 import mongoose from 'mongoose';
-import {
-  initCORS,
-  initErrorHandler,
-  initSentry,
-  ResponseHandler
-} from '../handlers';
+import { initCORS, initErrorHandler, initSentry } from '../handlers';
 import initRoutes from '../routes';
-import { ICustomRequest, PORT } from '../utils';
+import { PORT } from '../utils';
 import morganBody from 'morgan-body';
 import {
   callIdMiddleware,

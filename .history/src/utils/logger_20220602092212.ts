@@ -42,3 +42,21 @@ export function logPrimary(content: string): void {
 export function logConsole(content: unknown): void {
   log(content);
 }
+
+export function sentryErrLog(
+  err: Error,
+  title?: string, // TODO: title ignored, maybe send it to sentry as well
+  user?: unknown,
+  request?: LeanRequest
+): void {
+  Sentry.captureException(err, { extra: { request }, user });
+
+  if (request) error(new Date().toISOString() + ': ', err, request);
+  else error(new Date().toISOString() + ': ', err);
+}
+
+export function sentryMessageHandler(context: string, data: unknown): void {
+  const additionalInfo = data ? ' : ' + JSON.stringify(data) : '';
+
+  Sentry.captureMessage(context + additionalInfo);
+}

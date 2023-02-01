@@ -6,7 +6,6 @@ import { STATUS_CODES } from '.';
 import { IUser } from '../../.history/src/models/User.model_20230201133719';
 import { access } from 'fs';
 import { IAccess } from '../../.history/src/models/Access.model_20230201133505';
-import { ResponseHandler } from '../handlers';
 
 export type HTTPMethod =
   | 'all'

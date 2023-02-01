@@ -1,4 +1,9 @@
-import { ExpressRoute, ICustomRequest, indexedObject } from '../utils';
+import {
+  ERROR_CODES,
+  ExpressRoute,
+  ICustomRequest,
+  indexedObject
+} from '../utils';
 import express from 'express';
 
 /***
@@ -21,11 +26,16 @@ export function handleError(): (
       req: ICustomRequest,
       res: express.Response
     ): Promise<express.Response<unknown>> => {
-      const { resHandler } = req;
       try {
         return await originalFunction(req, res);
       } catch (error) {
-        return resHandler.error(error);
+        return errCatchResHandler(
+          res,
+          req,
+          ERROR_CODES.SERVER_ERROR,
+          `err in ${target.constructor.name}/${propertyName}`,
+          error
+        );
       }
     };
     if (descriptor) {

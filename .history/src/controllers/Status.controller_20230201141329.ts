@@ -1,6 +1,11 @@
 import express from 'express';
 
-import { ICustomRequest } from '../utils';
+import {
+  // AgendaJob,
+  // errCatchResHandler,
+  ERROR_CODES,
+  ICustomRequest
+} from '../utils';
 import { handleError, route } from '../decorators';
 import { Routable } from '../routes/routable';
 
@@ -16,8 +21,10 @@ export class StatusController extends Routable {
   @route('get', '/')
   @handleError()
   async show(req: ICustomRequest): Promise<express.Response<unknown>> {
-    const { resHandler: res } = req;
+    const { callId, resHandler: res } = req;
 
-    return res.ok('The server is up and running');
+    return resHandler(res, ERROR_CODES.OK, callId, {
+      message: 'The server is up and running.'
+    });
   }
 }

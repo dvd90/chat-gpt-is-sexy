@@ -11,7 +11,7 @@ import {
   ResponseHandler
 } from '../handlers';
 import initRoutes from '../routes';
-import { ICustomRequest, PORT } from '../utils';
+import { PORT } from '../utils';
 import morganBody from 'morgan-body';
 import {
   callIdMiddleware,

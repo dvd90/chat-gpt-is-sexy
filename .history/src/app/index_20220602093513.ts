@@ -4,14 +4,9 @@ dotenv.config();
 import express, { Express } from 'express';
 import helmet from 'helmet';
 import mongoose from 'mongoose';
-import {
-  initCORS,
-  initErrorHandler,
-  initSentry,
-  ResponseHandler
-} from '../handlers';
+import { initCORS, initErrorHandler, initSentry } from '../handlers';
 import initRoutes from '../routes';
-import { ICustomRequest, PORT } from '../utils';
+import { PORT } from '../utils';
 import morganBody from 'morgan-body';
 import {
   callIdMiddleware,
@@ -45,18 +40,6 @@ export default async function (testFlag?: boolean): Promise<Express> {
 
   // Adding call ID to every request
   app.use(callIdMiddleware);
-
-  app.use(
-    (
-      req: ICustomRequest,
-      res: express.Response,
-      next: express.NextFunction
-    ) => {
-      req.resHandler = new ResponseHandler(req, res);
-
-      return next();
-    }
-  );
 
   // Initialize Routes
   initRoutes(app);

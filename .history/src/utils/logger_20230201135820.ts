@@ -1,6 +1,4 @@
 import chalk from 'chalk';
-import * as Sentry from '@sentry/node';
-import { LeanRequest } from './interfaces';
 
 // region ERROR JSON handling
 // this will define a proper toJSON function on the standard Error object prototype

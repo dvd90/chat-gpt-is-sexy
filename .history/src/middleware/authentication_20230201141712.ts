@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { ICustomRequest } from '../utils';
+import { ERROR_CODES, ICustomRequest } from '../utils';
 
 // Auth with Auth0
 // const authJWT = expressjwt({
@@ -22,7 +22,6 @@ export const authMiddleware = [
     res: express.Response,
     next: express.NextFunction
   ): unknown {
-    const { resHandler } = req;
     if (!req.access) {
       return resHandler.wrongToken();
     }

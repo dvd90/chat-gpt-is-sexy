@@ -3,10 +3,6 @@ import { ValidationError } from 'express-validator';
 import request from 'request';
 
 import { STATUS_CODES } from '.';
-import { IUser } from '../../.history/src/models/User.model_20230201133719';
-import { access } from 'fs';
-import { IAccess } from '../../.history/src/models/Access.model_20230201133505';
-import { ResponseHandler } from '../handlers';
 
 export type HTTPMethod =
   | 'all'
@@ -63,9 +59,7 @@ export interface userAuth0Jwt {
 export interface ICustomRequest extends express.Request {
   // Add your custom req here...
   callId?: string;
-  user?: IUser;
-  access?: IAccess;
-  resHandler: ResponseHandler;
+  user?: userAuth0Jwt;
 }
 
 export interface indexedObject {

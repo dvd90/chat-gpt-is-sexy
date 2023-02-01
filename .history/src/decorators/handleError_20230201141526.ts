@@ -1,4 +1,9 @@
-import { ExpressRoute, ICustomRequest, indexedObject } from '../utils';
+import {
+  ERROR_CODES,
+  ExpressRoute,
+  ICustomRequest,
+  indexedObject
+} from '../utils';
 import express from 'express';
 
 /***
@@ -21,12 +26,13 @@ export function handleError(): (
       req: ICustomRequest,
       res: express.Response
     ): Promise<express.Response<unknown>> => {
-      const { resHandler } = req;
+          const { resHandler } = req;
       try {
         return await originalFunction(req, res);
       } catch (error) {
         return resHandler.error(error);
       }
+    };
     };
     if (descriptor) {
       descriptor.value = factory;

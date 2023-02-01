@@ -25,11 +25,17 @@ export class BodyValidator {
     res: express.Response,
     next: express.NextFunction
   ): express.Response<unknown> | void {
-    const { resHandler } = req;
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-      return resHandler.validation(errors.array());
+      return errResHandler(
+        res,
+        req,
+        ERROR_CODES.VALIDATION,
+        'err in Validations',
+        'Validations',
+        errors.array()
+      );
     }
 
     next();

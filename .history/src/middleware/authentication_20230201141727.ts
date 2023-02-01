@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { ICustomRequest } from '../utils';
+import { ERROR_CODES, ICustomRequest } from '../utils';
 
 // Auth with Auth0
 // const authJWT = expressjwt({

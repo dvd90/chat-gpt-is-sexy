@@ -61,11 +61,17 @@ export function handleError(): (
       req: ICustomRequest,
       res: express.Response
     ): Promise<express.Response<unknown>> => {
-      const { resHandler } = req;
       try {
         return await originalFunction(req, res);
       } catch (error) {
-        return resHandler.error(error);
+        log(error);
+        return errCatchResHandler(
+          res,
+          req,
+          ERROR_CODES.SERVER_ERROR,
+          `err in ${target.constructor.name}/${propertyName}`,
+          error
+        );
       }
     };
     if (descriptor) {
@@ -74,6 +80,29 @@ export function handleError(): (
       target = factory;
     }
   };
+}
+
+export function resHandler(
+  res: express.Response,
+  errCodeObj: IErrorCode,
+  callId: string,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  data?: any
+): express.Response<unknown, Record<string, unknown>> {
+  const apiResponse: IApiResponseObj = {
+    statusCode: errCodeObj.statusCode,
+    errorCode: errCodeObj.id,
+    statusReason: errCodeObj.statusReason,
+    callId: callId ?? '',
+    data,
+    time: Date.now()
+  };
+  winstonLogger.info(errCodeObj.statusReason, {
+    callId: callId ?? '',
+    errorId: errCodeObj.id
+  });
+
+  return res.status(errCodeObj.statusCode).json(apiResponse);
 }
 
 function toLeanRequest({
