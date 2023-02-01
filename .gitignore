@@ -56,3 +56,4 @@ logs/
 coverage
 node_modules
 node_modules
+.history/
