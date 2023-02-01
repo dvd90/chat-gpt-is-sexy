@@ -44,30 +44,9 @@ export const authMiddleware = [
       ? await Access.findOne({ access_key: headers['x-key'] })
       : undefined;
 
-    if (
-      access ||
-      !createTokenAndCheckToken(
-        headers['x-signed'],
-        access.secret,
-        headers['x-timestamp'].toString(),
-        access.access_id
-      )
-    ) {
+    if (access || !createTokenAndCheckToken()) {
       return resHandler.wrongToken();
     }
-
-    // TODO: Expiration
-    // const expirationDate = Helpers.dateAfterDays(1, timestamp);
-    // if (!Helpers.isBefore(expirationDate)) {
-    //   return errResHandler(
-    //     res,
-    //     req,
-    //     ERROR_CODES.TOKEN_EXPIRED,
-    //     'err in authMiddleware',
-    //     'src/middleware/authentication',
-    //     req.callId
-    //   );
-    // }
 
     let user: IUser | undefined;
 

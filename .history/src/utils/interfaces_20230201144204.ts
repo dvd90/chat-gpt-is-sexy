@@ -3,14 +3,15 @@ import { ValidationError } from 'express-validator';
 import request from 'request';
 
 import { STATUS_CODES } from '.';
-import { IUser, IAccess } from '../models';
+import { IUser } from '../../.history/src/models/User.model_20230201133719';
+import { access } from 'fs';
+import { IAccess } from '../../.history/src/models/Access.model_20230201133505';
 import { ResponseHandler } from '../handlers';
-import { IncomingHttpHeaders } from 'node:http';
 
 export interface IAuthHeader extends IncomingHttpHeaders {
-  ['x-timestamp']: string;
-  ['x-key']: string;
-  ['x-signed']: string;
+  ['x-myinterview-timestamp']: string;
+  ['x-myinterview-key']: string;
+  ['x-myinterview-signed']: string;
   ['user-agent']?: string;
 }
 

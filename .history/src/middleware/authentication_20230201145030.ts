@@ -8,10 +8,10 @@ export function createTokenAndCheckToken(
   token: string,
   secret: string,
   timestamp: string,
-  access_id: string
+  clientId: string
 ): boolean {
   const checkToken = createHmac('sha256', secret)
-    .update(timestamp + '.' + access_id)
+    .update(timestamp + '.' + clientId)
     .digest('base64');
 
   return checkToken === token;
@@ -44,30 +44,9 @@ export const authMiddleware = [
       ? await Access.findOne({ access_key: headers['x-key'] })
       : undefined;
 
-    if (
-      access ||
-      !createTokenAndCheckToken(
-        headers['x-signed'],
-        access.secret,
-        headers['x-timestamp'].toString(),
-        access.access_id
-      )
-    ) {
+    if (access) {
       return resHandler.wrongToken();
     }
-
-    // TODO: Expiration
-    // const expirationDate = Helpers.dateAfterDays(1, timestamp);
-    // if (!Helpers.isBefore(expirationDate)) {
-    //   return errResHandler(
-    //     res,
-    //     req,
-    //     ERROR_CODES.TOKEN_EXPIRED,
-    //     'err in authMiddleware',
-    //     'src/middleware/authentication',
-    //     req.callId
-    //   );
-    // }
 
     let user: IUser | undefined;
 

@@ -56,19 +56,6 @@ export const authMiddleware = [
       return resHandler.wrongToken();
     }
 
-    // TODO: Expiration
-    // const expirationDate = Helpers.dateAfterDays(1, timestamp);
-    // if (!Helpers.isBefore(expirationDate)) {
-    //   return errResHandler(
-    //     res,
-    //     req,
-    //     ERROR_CODES.TOKEN_EXPIRED,
-    //     'err in authMiddleware',
-    //     'src/middleware/authentication',
-    //     req.callId
-    //   );
-    // }
-
     let user: IUser | undefined;
 
     if (access.user_id) {

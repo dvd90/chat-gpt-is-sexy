@@ -4,13 +4,13 @@ import request from 'request';
 
 import { STATUS_CODES } from '.';
 import { IUser, IAccess } from '../models';
+import { access } from 'fs';
 import { ResponseHandler } from '../handlers';
-import { IncomingHttpHeaders } from 'node:http';
 
 export interface IAuthHeader extends IncomingHttpHeaders {
-  ['x-timestamp']: string;
-  ['x-key']: string;
-  ['x-signed']: string;
+  ['x-myinterview-timestamp']: string;
+  ['x-myinterview-key']: string;
+  ['x-myinterview-signed']: string;
   ['user-agent']?: string;
 }
 

@@ -4,6 +4,7 @@ import request from 'request';
 
 import { STATUS_CODES } from '.';
 import { IUser, IAccess } from '../models';
+import { access } from 'fs';
 import { ResponseHandler } from '../handlers';
 import { IncomingHttpHeaders } from 'node:http';
 

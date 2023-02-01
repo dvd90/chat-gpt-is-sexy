@@ -1,21 +1,8 @@
 import express from 'express';
-import { Access, User, IUser } from '../models';
+import { Access } from '../models';
 
 import { IAuthHeader, ICustomRequest } from '../utils';
-import { createHmac } from 'crypto';
-
-export function createTokenAndCheckToken(
-  token: string,
-  secret: string,
-  timestamp: string,
-  access_id: string
-): boolean {
-  const checkToken = createHmac('sha256', secret)
-    .update(timestamp + '.' + access_id)
-    .digest('base64');
-
-  return checkToken === token;
-}
+import { IUser } from '../../.history/src/models/User.model_20230201133719';
 
 // Auth with Auth0
 // const authJWT = expressjwt({
@@ -44,39 +31,15 @@ export const authMiddleware = [
       ? await Access.findOne({ access_key: headers['x-key'] })
       : undefined;
 
-    if (
-      access ||
-      !createTokenAndCheckToken(
-        headers['x-signed'],
-        access.secret,
-        headers['x-timestamp'].toString(),
-        access.access_id
-      )
-    ) {
+    if (access) {
       return resHandler.wrongToken();
     }
-
-    // TODO: Expiration
-    // const expirationDate = Helpers.dateAfterDays(1, timestamp);
-    // if (!Helpers.isBefore(expirationDate)) {
-    //   return errResHandler(
-    //     res,
-    //     req,
-    //     ERROR_CODES.TOKEN_EXPIRED,
-    //     'err in authMiddleware',
-    //     'src/middleware/authentication',
-    //     req.callId
-    //   );
-    // }
 
     let user: IUser | undefined;
 
     if (access.user_id) {
       user = await User.findOne({ user_id: access.user_id });
     }
-
-    req.user = user;
-    req.access = access;
 
     next();
   }
