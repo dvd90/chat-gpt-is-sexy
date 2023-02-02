@@ -14,6 +14,8 @@ export function createTokenAndCheckToken(
     .update(timestamp + '.' + access_id)
     .digest('base64');
 
+  console.log({ checkToken, eq: checkToken === token });
+
   return checkToken === token;
 }
 
@@ -41,11 +43,13 @@ export const authMiddleware = [
     const headers = req.headers as IAuthHeader;
 
     const access = headers['x-key']
-      ? await Access.findOne({ access_key: headers['x-key'] })
+      ? await Access.findOne({ access_key: headers['x-key'] }).lean()
       : undefined;
 
+    if (!access) {
+      return resHandler.wrongToken();
+    }
     if (
-      access ||
       !createTokenAndCheckToken(
         headers['x-signed'],
         access.secret,

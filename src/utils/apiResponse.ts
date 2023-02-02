@@ -1,18 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import express from 'express';
-import { ValidationError } from 'express-validator';
-import {
-  ERROR_CODES,
-  ExpressRoute,
-  IApiErrorObj,
-  IApiResponseObj,
-  ICustomRequest,
-  IErrorCode,
-  indexedObject,
-  LeanRequest,
-  log,
-  winstonLogger
-} from '.';
+import { ExpressRoute, ICustomRequest, indexedObject, LeanRequest } from '.';
 
 /***
  * This decorator will force a "floating" function (instance function) to be bound to it's object
